@@ -1,3 +1,5 @@
-beautifulsoup4     4.12.2
-discord            2.2.2
-discord-ext-bot    1.0.1
+beautifulsoup4
+discord.py
+discord-ext-bot
+python-dotenv
+requests
