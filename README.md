@@ -47,6 +47,15 @@ pip install -r requirements.txt
 python src/vulnerability_collector.py
 ```
 
+Alternatively, a container can be used to run it. To execute, the following command is used.
+The docker repository is at the following URL.
+[https://hub.docker.com/repository/docker/mozsecurity/vuln_info_bot/general](https://hub.docker.com/repository/docker/mozsecurity/vuln_info_bot/general)
+
+```bash
+docker pull mozsecurity/vuln_info_bot:latest
+docker run --rm --env-file .env mozsecurity/vuln_info_bot:latest
+```
+
 ## Licence
 
 [Apache License, Version2.0](https://github.com/pigeon-sable/vuln_info_bot/blob/main/LICENSE)
