@@ -1,5 +1,7 @@
 # vc_manager
 
+![vuln_info_bot](https://github.com/pigeon-sable/vuln_info_bot/blob/images/README_image.png)
+
 ## Description
 
 This bot is for muttering vulnerability information.
@@ -49,6 +51,7 @@ python src/vulnerability_collector.py
 
 Alternatively, a container can be used to run it. To execute, the following command is used.
 The docker repository is at the following URL.
+
 [https://hub.docker.com/repository/docker/mozsecurity/vuln_info_bot/general](https://hub.docker.com/repository/docker/mozsecurity/vuln_info_bot/general)
 
 ```bash
