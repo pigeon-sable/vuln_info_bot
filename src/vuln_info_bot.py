@@ -21,7 +21,7 @@
 
 __author__ = 'pigeon-sable'
 __version__ = '0.0.0'
-__date__ = '2023/05/13 (Created: 2023/04/19)'
+__date__ = '2023/05/14 (Created: 2023/04/19)'
 
 import datetime
 import os
@@ -112,7 +112,7 @@ def discord_bot(client: discord.Client, table_today_vulnerabilities: tuple) -> N
     @client.event
     async def on_ready():
         for channel in client.get_all_channels():
-            if channel.name == 'vulnerability_info':
+            if channel.name == 'vuln_info_bot':
                 room_id["VULNERABILITY_ROOM_ID"] = channel.id
                 print('---------------------------------')
                 print('Channel Name: ' + channel.name)
@@ -124,7 +124,7 @@ def discord_bot(client: discord.Client, table_today_vulnerabilities: tuple) -> N
     async def loop():
         notify_room = client.get_channel(room_id["VULNERABILITY_ROOM_ID"])
         now = datetime.datetime.now().strftime('%H:%M')
-        if now == '00:01':
+        if now == '00:00':
             await notify_room.send('=' * 40)
             print(now)
             await notify_room.send(f'{datetime.datetime.now().date()} の脆弱性情報をお知らせします。')
