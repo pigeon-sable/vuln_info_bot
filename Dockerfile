@@ -15,4 +15,4 @@ COPY ./requirements.txt /app
 COPY ./src /app
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install -r requirements.txt
-CMD ["python", "vulnerability_collector.py"]
+CMD ["python", "vuln_info_bot.py"]
