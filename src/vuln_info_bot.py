@@ -20,7 +20,7 @@
 """
 
 __author__ = 'pigeon-sable'
-__version__ = '0.0.0'
+__version__ = '1.0.1'
 __date__ = '2023/05/14 (Created: 2023/04/19)'
 
 import datetime
@@ -123,11 +123,13 @@ def discord_bot(client: discord.Client, table_today_vulnerabilities: tuple) -> N
     @tasks.loop(seconds=60)
     async def loop():
         notify_room = client.get_channel(room_id["VULNERABILITY_ROOM_ID"])
-        now = datetime.datetime.now().strftime('%H:%M')
+        now = datetime.datetime.now(datetime.timezone(
+            datetime.timedelta(hours=9))).strftime('%H:%M')
         if now == '00:00':
             await notify_room.send('=' * 40)
             print(now)
             await notify_room.send(f'{datetime.datetime.now().date()} の脆弱性情報をお知らせします。')
+            await notify_room.send('-' * 40)
             for summary, hyper_reference, severity in table_today_vulnerabilities:
                 await notify_room.send(f'{summary} [CVSS v3: {severity}]')
                 await notify_room.send(hyper_reference)
