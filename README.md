@@ -1,7 +1,5 @@
 # vuln_info_bot
 
-![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=macos&logoColor=F0F0F0)
-![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3.11.0-blue.svg)
 ![docker-build-push](https://github.com/pigeon-sable/vuln_info_bot/actions/workflows/docker-build-push.yaml/badge.svg)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
