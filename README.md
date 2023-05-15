@@ -1,7 +1,7 @@
 # vuln_info_bot
 
 ![Python](https://img.shields.io/badge/python-3.11.0-blue.svg)
-![docker-build-push](https://github.com/pigeon-sable/vuln_info_bot/actions/workflows/docker-build-push.yaml/badge.svg)
+![release](https://github.com/pigeon-sable/vuln_info_bot/workflows/docker-build-push.yaml/badge.svg)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 
 ![vuln_info_bot](https://github.com/pigeon-sable/vuln_info_bot/blob/images/README_image.png)
