@@ -21,16 +21,17 @@
 
 __author__ = 'pigeon-sable'
 __version__ = '1.0.1'
-__date__ = '2023/05/14 (Created: 2023/05/14)'
+__date__ = '2023/06/02 (Created: 2023/05/14)'
 
 import datetime
 import re
 import requests
+import sys
 
 from bs4 import BeautifulSoup
 
 
-def table_of_jvn_info(the_url_string: str) -> tuple:
+def table_of_jvn_info() -> tuple:
     """
     JVNのWebページをウェブスクレイピングし、サマリーとハイパーリンク、CVSSレベルのタプルを作って応答します。
     抽出できない場合には、Noneを応答します。
@@ -41,6 +42,8 @@ def table_of_jvn_info(the_url_string: str) -> tuple:
     Returns:
         tuple: サマリーとハイパーリンク、CVSSレベルのタプル
     """
+
+    the_url_string = 'https://jvndb.jvn.jp/index.html'
 
     response = requests.get(the_url_string)
     if response.status_code != 200:
@@ -85,3 +88,17 @@ def table_of_jvn_info(the_url_string: str) -> tuple:
             table.append([summary, hyper_reference, severity])
 
     return table
+
+
+def main() -> int:
+    """
+    ライブラリとして提供する table_of_jvn_info() が正しく動作するかチェックする。
+    """
+    table = table_of_jvn_info('https://jvndb.jvn.jp/index.html')
+    print(table)
+
+    return 0
+
+
+if __name__ == '__main__':  # このスクリプトファイルが直接実行されたときだけ、以下の部分を実行する。
+    sys.exit(main())

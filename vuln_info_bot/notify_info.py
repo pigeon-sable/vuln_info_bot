@@ -20,8 +20,8 @@
 """
 
 __author__ = 'pigeon-sable'
-__version__ = '1.0.1'
-__date__ = '2023/05/14 (Created: 2023/05/14)'
+__version__ = '1.0.2'
+__date__ = '2023/06/02 (Created: 2023/05/14)'
 
 import datetime
 import os
@@ -30,8 +30,13 @@ import sys
 import discord
 from discord.ext import tasks
 
+import scraping
 
-def event_method(client: discord.Client, table_today_vulnerabilities: tuple) -> None:
+GET_TIME = '00:00'
+NOTIFY_TIME = '12:00'
+
+
+def event_method(client: discord.Client) -> None:
     """
     Discord ボットでの処理を書きます。
     イベントが発生したときに、自動的に呼び出されます。
@@ -61,11 +66,11 @@ def event_method(client: discord.Client, table_today_vulnerabilities: tuple) -> 
     @tasks.loop(seconds=60)
     async def loop():
         notify_room = client.get_channel(room_id["VULNERABILITY_ROOM_ID"])
-        now = datetime.datetime.now(datetime.timezone(
-            datetime.timedelta(hours=9))).strftime('%H:%M')
-        if now == '00:00':
+        now = datetime.datetime.now().strftime('%H:%M')
+        if now == GET_TIME:
+            table_today_vulnerabilities = scraping.table_of_jvn_info()  # スクレイピングで脆弱性情報を取得する
+        if now == NOTIFY_TIME:
             await notify_room.send('=' * 40)
-            print(now)
             await notify_room.send(f'{datetime.datetime.now().date()} の脆弱性情報をお知らせします。')
             await notify_room.send('-' * 40)
             for summary, hyper_reference, severity in table_today_vulnerabilities:
