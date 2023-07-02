@@ -1,18 +1,10 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.11.3 as builder
+FROM python:3.11.4
 WORKDIR /app
-COPY ./requirements.txt /app
-COPY ./src /app
-RUN apt-get update && apt-get install -y vim
+RUN apt-get update && apt-get upgrade -y && apt-get install -y vim && apt-get autoremove -y
 RUN pip install --no-cache-dir --upgrade pip
+ADD ./requirements.txt /app
 RUN pip install -r requirements.txt
-CMD [ "bash" ]
-
-FROM python:3.11.3-alpine3.17
-WORKDIR /app
-COPY ./requirements.txt /app
-COPY ./src /app
-RUN pip install --no-cache-dir --upgrade pip
-RUN pip install -r requirements.txt
-CMD ["python", "vuln_info_bot.py"]
+ADD ./vuln_info_bot /app/vuln_info_bot
+CMD [ "python", "vuln_info_bot/main.py" ]
