@@ -20,16 +20,15 @@
 """
 
 __author__ = 'pigeon-sable'
-__version__ = '1.0.1'
-__date__ = '2023/05/14 (Created: 2023/04/19)'
+__version__ = '1.0.2'
+__date__ = '2023/06/02 (Created: 2023/04/19)'
 
 import sys
 
 import discord
 from dotenv import load_dotenv
 
-from web import scraping
-from discord import notify_info
+import notify_info
 
 
 def main() -> int:
@@ -40,14 +39,11 @@ def main() -> int:
 
     load_dotenv()  # .envファイルから環境変数を読み込む
 
-    table_today_vulnerabilities = scraping.table_of_jvn_info(
-        'https://jvndb.jvn.jp/index.html')
-
     client = discord.Client(intents=discord.Intents.default(),
                             messages=discord.Intents.messages,
                             activity=discord.Game(name="/vuln"))
 
-    notify_info.event_method(client, table_today_vulnerabilities)
+    notify_info.event_method(client)
 
     return 0
 
