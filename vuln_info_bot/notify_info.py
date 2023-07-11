@@ -20,8 +20,8 @@
 """
 
 __author__ = "pigeon-sable"
-__version__ = "1.0.2"
-__date__ = "2023/06/02 (Created: 2023/05/14)"
+__version__ = "1.0.3"
+__date__ = "2023/07/11 (Created: 2023/05/14)"
 
 import datetime
 import os
@@ -32,8 +32,8 @@ from discord.ext import tasks
 
 import scraping
 
-GET_TIME = "00:01"
-NOTIFY_TIME = "21:00"
+GET_TIME = os.environ["GET_TIME"]
+NOTIFY_TIME = os.environ["NOTIFY_TIME"]
 
 
 def event_method(client: discord.Client) -> None:
