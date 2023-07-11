@@ -19,9 +19,9 @@
 脆弱性情報収集プログラム：脆弱性情報を集めます。
 """
 
-__author__ = 'pigeon-sable'
-__version__ = '1.0.2'
-__date__ = '2023/06/02 (Created: 2023/04/19)'
+__author__ = "pigeon-sable"
+__version__ = "1.0.2"
+__date__ = "2023/06/02 (Created: 2023/04/19)"
 
 import sys
 
@@ -39,14 +39,16 @@ def main() -> int:
 
     load_dotenv()  # .envファイルから環境変数を読み込む
 
-    client = discord.Client(intents=discord.Intents.default(),
-                            messages=discord.Intents.messages,
-                            activity=discord.Game(name="/vuln"))
+    client = discord.Client(
+        intents=discord.Intents.default(),
+        messages=discord.Intents.messages,
+        activity=discord.Game(name="/vuln"),
+    )
 
     notify_info.event_method(client)
 
     return 0
 
 
-if __name__ == '__main__':  # このスクリプトファイルが直接実行されたときだけ、以下の部分を実行する。
+if __name__ == "__main__":  # このスクリプトファイルが直接実行されたときだけ、以下の部分を実行する。
     sys.exit(main())
