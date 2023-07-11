@@ -19,9 +19,9 @@
 脆弱性情報収集プログラム：脆弱性情報を集めます。
 """
 
-__author__ = 'pigeon-sable'
-__version__ = '1.0.2'
-__date__ = '2023/06/02 (Created: 2023/05/14)'
+__author__ = "pigeon-sable"
+__version__ = "1.0.3"
+__date__ = "2023/07/11 (Created: 2023/05/14)"
 
 import datetime
 import os
@@ -32,8 +32,8 @@ from discord.ext import tasks
 
 import scraping
 
-GET_TIME = '00:00'
-NOTIFY_TIME = '12:00'
+GET_TIME = os.environ["GET_TIME"]
+NOTIFY_TIME = os.environ["NOTIFY_TIME"]
 
 
 def event_method(client: discord.Client) -> None:
@@ -55,33 +55,40 @@ def event_method(client: discord.Client) -> None:
     @client.event
     async def on_ready():
         for channel in client.get_all_channels():
-            if channel.name == 'vuln_info_bot':
+            if channel.name == "vuln_info_bot":
                 room_id["VULNERABILITY_ROOM_ID"] = channel.id
-                print('---------------------------------')
-                print('Channel Name: ' + channel.name)
-                print('Channel ID: ' + str(channel.id))
-                print('---------------------------------')
+                print("---------------------------------")
+                print("Channel Name: " + channel.name)
+                print("Channel ID: " + str(channel.id))
+                print("---------------------------------")
         loop.start()
 
     @tasks.loop(seconds=60)
     async def loop():
         notify_room = client.get_channel(room_id["VULNERABILITY_ROOM_ID"])
-        now = datetime.datetime.now().strftime('%H:%M')
+        now = datetime.datetime.now().strftime("%H:%M")
         if now == GET_TIME:
-            table_today_vulnerabilities = scraping.table_of_jvn_info()  # スクレイピングで脆弱性情報を取得する
+            table_today_vulnerabilities = (
+                scraping.table_of_jvn_info()
+            )  # スクレイピングで脆弱性情報を取得する
         if now == NOTIFY_TIME:
-            await notify_room.send('=' * 40)
-            await notify_room.send(f'{datetime.datetime.now().date()} の脆弱性情報をお知らせします。')
-            await notify_room.send('-' * 40)
+            await notify_room.send("=" * 40)
+            await notify_room.send(f"{datetime.datetime.now().date()} の脆弱性情報をお知らせします。")
+            await notify_room.send("-" * 40)
             for summary, hyper_reference, severity in table_today_vulnerabilities:
-                await notify_room.send(f'{summary} [CVSS v3: {severity}]')
+                await notify_room.send(summary)
+                if "緊急" in severity:
+                    await notify_room.send(f"```diff\n-[CVSS v3: {severity}]\n```")
+                elif "重要" in severity:
+                    await notify_room.send(f"```arm\n[CVSS v3: {severity}]\n```")
+                elif "警告" in severity:
+                    await notify_room.send(f"```fix\n[CVSS v3: {severity}]\n```")
                 await notify_room.send(hyper_reference)
-                await notify_room.send('-' * 40)
-            await notify_room.send('=' * 40)
+                await notify_room.send("-" * 40)
+            await notify_room.send("=" * 40)
 
-    client.run(os.environ['ACCESS_TOKEN'])
+    client.run(os.environ["ACCESS_TOKEN"])
 
 
-if __name__ == '__main__':  # このスクリプトファイルが直接実行されたときだけ、以下の部分を実行する。
-    sys.exit(event_method(discord.Client(
-        intents=discord.Intents.default()), tuple()))
+if __name__ == "__main__":  # このスクリプトファイルが直接実行されたときだけ、以下の部分を実行する。
+    sys.exit(event_method(discord.Client(intents=discord.Intents.default()), tuple()))

@@ -19,9 +19,9 @@
 スクレイピングプログラム：ウェブサイトから情報を集めます。
 """
 
-__author__ = 'pigeon-sable'
-__version__ = '1.0.1'
-__date__ = '2023/06/02 (Created: 2023/05/14)'
+__author__ = "pigeon-sable"
+__version__ = "1.0.3"
+__date__ = "2023/07/11 (Created: 2023/05/14)"
 
 import datetime
 import re
@@ -43,7 +43,7 @@ def table_of_jvn_info() -> tuple:
         tuple: サマリーとハイパーリンク、CVSSレベルのタプル
     """
 
-    the_url_string = 'https://jvndb.jvn.jp/index.html'
+    the_url_string = "https://jvndb.jvn.jp/index.html"
 
     response = requests.get(the_url_string)
     if response.status_code != 200:
@@ -52,11 +52,10 @@ def table_of_jvn_info() -> tuple:
     response.encoding = response.apparent_encoding
     html_source = response.text
 
-    beautiful_soup = BeautifulSoup(html_source, 'html.parser')
+    beautiful_soup = BeautifulSoup(html_source, "html.parser")
 
-    table_info = beautiful_soup.find(
-        name='ul', attrs={'class': 'news-list bg'})
-    table_info.find('li',  {'class': 'header'}).extract()
+    table_info = beautiful_soup.find(name="ul", attrs={"class": "news-list bg"})
+    table_info.find("li", {"class": "header"}).extract()
 
     if table_info is None:
         return None
@@ -64,26 +63,30 @@ def table_of_jvn_info() -> tuple:
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
 
     table = []
-    for li_tag in table_info.find_all(name='li'):
-
-        date = li_tag.find(name='div', attrs={
-            'class': 'date'}).get_text().split(' ')[0]
-        date = datetime.datetime.strptime(date, '%Y/%m/%d').date()
+    for li_tag in table_info.find_all(name="li"):
+        date = li_tag.find(name="div", attrs={"class": "date"}).get_text().split(" ")[0]
+        date = datetime.datetime.strptime(date, "%Y/%m/%d").date()
 
         if date != yesterday:
             continue
         else:
-            summary = li_tag.find(
-                name='div', attrs={'class': 'summary'}).get_text()
+            summary = li_tag.find(name="div", attrs={"class": "summary"}).get_text()
 
-            hyper_reference = the_url_string.rstrip(
-                '/index.html') + li_tag.find(name='a')['href']
+            hyper_reference = (
+                the_url_string.rstrip("/index.html") + li_tag.find(name="a")["href"]
+            )
 
-            if li_tag.find(name='div', attrs={'class': re.compile(r'newlist_cvss_\d_class')}) is None:
-                severity = '-'
+            if (
+                li_tag.find(
+                    name="div", attrs={"class": re.compile(r"newlist_cvss_\d_class")}
+                )
+                is None
+            ):
+                severity = "-"
             else:
                 severity = li_tag.find(
-                    name='div', attrs={'class': re.compile(r'newlist_cvss_\d_class')}).get_text()
+                    name="div", attrs={"class": re.compile(r"newlist_cvss_\d_class")}
+                ).get_text()
 
             table.append([summary, hyper_reference, severity])
 
@@ -94,11 +97,11 @@ def main() -> int:
     """
     ライブラリとして提供する table_of_jvn_info() が正しく動作するかチェックする。
     """
-    table = table_of_jvn_info('https://jvndb.jvn.jp/index.html')
+    table = table_of_jvn_info("https://jvndb.jvn.jp/index.html")
     print(table)
 
     return 0
 
 
-if __name__ == '__main__':  # このスクリプトファイルが直接実行されたときだけ、以下の部分を実行する。
+if __name__ == "__main__":  # このスクリプトファイルが直接実行されたときだけ、以下の部分を実行する。
     sys.exit(main())
