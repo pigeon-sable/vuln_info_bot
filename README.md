@@ -1,7 +1,7 @@
 # vuln_info_bot
 
 ![Python](https://img.shields.io/badge/python-3.11.0-blue.svg)
-![release](https://github.com/pigeon-sable/vuln_info_bot/workflows/docker-build-push.yaml/badge.svg)
+![release](https://github.com/pigeon-sable/vuln_info_bot/actions/workflows/docker-build-push.yaml/badge.svg)
 ![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)
 
 ![vuln_info_bot](https://github.com/pigeon-sable/vuln_info_bot/blob/images/README_image.png)
@@ -61,6 +61,26 @@ The docker repository is at the following URL.
 ```bash
 docker pull mozsecurity/vuln_info_bot:latest
 docker run --rm --env-file .env mozsecurity/vuln_info_bot:latest
+```
+
+The above docker command can also be executed with docker compose, as shown below.
+First, create compose.yaml and write the following.
+
+```docker
+version: "3.8"
+  services:
+    app:
+      image: mozsecurity/vuln_info_bot
+      env_file:
+        - .env
+      environment:
+        - TZ=Asia/Tokyo
+```
+
+Then simply execute the command as follows.
+
+```bash
+docker-compose up -d
 ```
 
 ## Licence
