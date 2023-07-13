@@ -42,6 +42,7 @@ Do not enclose in single quotes("'").
 cp .env_example .env
 vim .env
     ACCESS_TOKEN=123456789abcdefg
+    NOTIFY_TIME=20:00
 ```
 
 ### 4. Run the program

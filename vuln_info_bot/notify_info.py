@@ -21,7 +21,7 @@
 
 __author__ = "pigeon-sable"
 __version__ = "1.0.4"
-__date__ = "2023/07/11 (Created: 2023/05/14)"
+__date__ = "2023/07/13 (Created: 2023/05/14)"
 
 import datetime
 import os
