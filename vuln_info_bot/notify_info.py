@@ -20,7 +20,7 @@
 """
 
 __author__ = "pigeon-sable"
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 __date__ = "2023/07/11 (Created: 2023/05/14)"
 
 import datetime
@@ -32,7 +32,6 @@ from discord.ext import tasks
 
 import scraping
 
-GET_TIME = os.environ["GET_TIME"]
 NOTIFY_TIME = os.environ["NOTIFY_TIME"]
 
 
@@ -67,22 +66,16 @@ def event_method(client: discord.Client) -> None:
     async def loop():
         notify_room = client.get_channel(room_id["VULNERABILITY_ROOM_ID"])
         now = datetime.datetime.now().strftime("%H:%M")
-        if now == GET_TIME:
+        if now == NOTIFY_TIME:
             table_today_vulnerabilities = (
                 scraping.table_of_jvn_info()
             )  # スクレイピングで脆弱性情報を取得する
-        if now == NOTIFY_TIME:
             await notify_room.send("=" * 40)
             await notify_room.send(f"{datetime.datetime.now().date()} の脆弱性情報をお知らせします。")
             await notify_room.send("-" * 40)
             for summary, hyper_reference, severity in table_today_vulnerabilities:
                 await notify_room.send(summary)
-                if "緊急" in severity:
-                    await notify_room.send(f"```diff\n-[CVSS v3: {severity}]\n```")
-                elif "重要" in severity:
-                    await notify_room.send(f"```arm\n[CVSS v3: {severity}]\n```")
-                elif "警告" in severity:
-                    await notify_room.send(f"```fix\n[CVSS v3: {severity}]\n```")
+                await notify_room.send(severity)
                 await notify_room.send(hyper_reference)
                 await notify_room.send("-" * 40)
             await notify_room.send("=" * 40)
